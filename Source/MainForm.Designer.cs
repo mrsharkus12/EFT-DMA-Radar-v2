@@ -28,7 +28,8 @@ namespace eft_dma_radar
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             tabLootFilter = new TabPage();
             chkLootFilterActive = new CheckBox();
             lblActiveFilter = new Label();
@@ -98,6 +99,7 @@ namespace eft_dma_radar
             chkHideLootValue = new CheckBox();
             chkImportantLootOnly = new CheckBox();
             grpUserInterface = new GroupBox();
+            chkShowHoverArmor = new CheckBox();
             chkShowLoot = new CheckBox();
             trkAimLength = new TrackBar();
             lblAimline = new Label();
@@ -110,6 +112,10 @@ namespace eft_dma_radar
             chkShowAimview = new CheckBox();
             chkHideNames = new CheckBox();
             grpMemoryWriting = new GroupBox();
+            chkNoSway = new CheckBox();
+            chkMaxStamina = new CheckBox();
+            chkNoRecoil = new CheckBox();
+            chkChams = new CheckBox();
             chkNoVisor = new CheckBox();
             chkOpticThermalVision = new CheckBox();
             chkNightVision = new CheckBox();
@@ -883,6 +889,7 @@ namespace eft_dma_radar
             // 
             // grpUserInterface
             // 
+            grpUserInterface.Controls.Add(chkShowHoverArmor);
             grpUserInterface.Controls.Add(chkShowLoot);
             grpUserInterface.Controls.Add(trkAimLength);
             grpUserInterface.Controls.Add(lblAimline);
@@ -900,6 +907,17 @@ namespace eft_dma_radar
             grpUserInterface.TabIndex = 26;
             grpUserInterface.TabStop = false;
             grpUserInterface.Text = "UI";
+            // 
+            // chkShowHoverArmor
+            // 
+            chkShowHoverArmor.AutoSize = true;
+            chkShowHoverArmor.Location = new Point(368, 22);
+            chkShowHoverArmor.Name = "chkShowHoverArmor";
+            chkShowHoverArmor.Size = new Size(95, 19);
+            chkShowHoverArmor.TabIndex = 29;
+            chkShowHoverArmor.Text = "Hover Armor";
+            chkShowHoverArmor.UseVisualStyleBackColor = true;
+            chkShowHoverArmor.CheckedChanged += chkShowHoverArmor_CheckedChanged;
             // 
             // chkShowLoot
             // 
@@ -1019,6 +1037,10 @@ namespace eft_dma_radar
             // 
             // grpMemoryWriting
             // 
+            grpMemoryWriting.Controls.Add(chkNoSway);
+            grpMemoryWriting.Controls.Add(chkMaxStamina);
+            grpMemoryWriting.Controls.Add(chkNoRecoil);
+            grpMemoryWriting.Controls.Add(chkChams);
             grpMemoryWriting.Controls.Add(chkNoVisor);
             grpMemoryWriting.Controls.Add(chkOpticThermalVision);
             grpMemoryWriting.Controls.Add(chkNightVision);
@@ -1029,6 +1051,54 @@ namespace eft_dma_radar
             grpMemoryWriting.TabIndex = 9;
             grpMemoryWriting.TabStop = false;
             grpMemoryWriting.Text = "Memory Writing [RISKY]";
+            // 
+            // chkNoSway
+            // 
+            chkNoSway.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkNoSway.AutoSize = true;
+            chkNoSway.Location = new Point(370, 22);
+            chkNoSway.Name = "chkNoSway";
+            chkNoSway.Size = new Size(72, 19);
+            chkNoSway.TabIndex = 25;
+            chkNoSway.Text = "No Sway";
+            chkNoSway.UseVisualStyleBackColor = true;
+            chkNoSway.CheckedChanged += chkNoSway_CheckedChanged;
+            // 
+            // chkMaxStamina
+            // 
+            chkMaxStamina.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkMaxStamina.AutoSize = true;
+            chkMaxStamina.Location = new Point(272, 47);
+            chkMaxStamina.Name = "chkMaxStamina";
+            chkMaxStamina.Size = new Size(95, 19);
+            chkMaxStamina.TabIndex = 24;
+            chkMaxStamina.Text = "Max Stamina";
+            chkMaxStamina.UseVisualStyleBackColor = true;
+            chkMaxStamina.CheckedChanged += chkMaxStamina_CheckedChanged;
+            // 
+            // chkNoRecoil
+            // 
+            chkNoRecoil.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkNoRecoil.AutoSize = true;
+            chkNoRecoil.Location = new Point(272, 22);
+            chkNoRecoil.Name = "chkNoRecoil";
+            chkNoRecoil.Size = new Size(77, 19);
+            chkNoRecoil.TabIndex = 23;
+            chkNoRecoil.Text = "No Recoil";
+            chkNoRecoil.UseVisualStyleBackColor = true;
+            chkNoRecoil.CheckedChanged += chkNoRecoil_CheckedChanged;
+            // 
+            // chkChams
+            // 
+            chkChams.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkChams.AutoSize = true;
+            chkChams.Location = new Point(5, 72);
+            chkChams.Name = "chkChams";
+            chkChams.Size = new Size(142, 19);
+            chkChams.TabIndex = 22;
+            chkChams.Text = "Chams (Offline - WIP)";
+            chkChams.UseVisualStyleBackColor = true;
+            chkChams.CheckedChanged += chkChams_CheckedChanged;
             // 
             // chkNoVisor
             // 
@@ -1442,6 +1512,11 @@ namespace eft_dma_radar
         private Label lblRegularLootColor;
         private PictureBox picImportantLootColor;
         private Label lblImportantLootColor;
+        private CheckBox chkChams;
+        private CheckBox chkNoRecoil;
+        private CheckBox chkMaxStamina;
+        private CheckBox chkNoSway;
+        private CheckBox chkShowHoverArmor;
     }
 }
 
