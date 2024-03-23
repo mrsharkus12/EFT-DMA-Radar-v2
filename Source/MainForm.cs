@@ -23,6 +23,8 @@ namespace eft_dma_radar
         private float _aimviewWindowSize = 200;
         private Player _closestPlayerToMouse = null;
         private DevLootItem _closestItemToMouse = null;
+        private QuestItem _closestTaskItemToMouse = null;
+        private QuestZone _closestTaskZoneToMouse = null;
         private int? _mouseOverGroup = null;
         private int _fps = 0;
         private int _mapSelectionIndex = 0;
@@ -103,6 +105,14 @@ namespace eft_dma_radar
         {
             get => Memory.Exfils;
         }
+
+        /// <summary>
+        /// Contains all information related to quests
+        /// </summary>
+        private QuestManager QuestManager
+        {
+            get => Memory.QuestManager;
+        }
         #endregion
 
         #region Constructor
@@ -120,7 +130,6 @@ namespace eft_dma_radar
                 Dock = DockStyle.Fill,
                 VSync = _config.Vsync // cap fps to refresh rate, reduce tearing
             };
-
             tabRadar.Controls.Add(_mapCanvas); // place Radar Map Canvas on top of TabPage1
             chkMapFree.Parent = _mapCanvas; // change parent for checkBox_MapFree 'button'
             trkUIScale.ValueChanged += trkUIScale_ValueChanged; // Handle UI Adjustments
@@ -138,6 +147,7 @@ namespace eft_dma_radar
             _mapCanvas.MouseClick += MapCanvas_MouseClick;
             lstViewPMCHistory.MouseDoubleClick += lstViewPMCHistory_MouseDoubleClick;
             _fpsWatch.Start(); // fps counter
+
         }
         #endregion
 
@@ -258,27 +268,130 @@ namespace eft_dma_radar
         }
 
         /// <summary>
-        /// Fired when NoRecoil checkbox has been adjusted
+        /// Fired when No Recoil/Sway checkbox has been adjusted
         /// </summary>
-        private void chkNoRecoil_CheckedChanged(object sender, EventArgs e)
+        private void chkNoRecoilSway_CheckedChanged(object sender, EventArgs e)
         {
-            _config.NoRecoilEnabled = chkNoRecoil.Checked;
+            _config.NoRecoilSwayEnabled = chkNoRecoilSway.Checked;
         }
 
-        /// <summary>
-        /// Fired when Max Stamina checkbox has been adjusted
-        /// </summary>
-        private void chkMaxStamina_CheckedChanged(object sender, EventArgs e)
+        private void chkJumpPower_CheckedChanged(object sender, EventArgs e)
         {
-            _config.MaxStaminaEnabled = chkMaxStamina.Checked;
+            _config.JumpPowerEnabled = chkJumpPower.Checked;
+            trkJumpPower.Visible = chkJumpPower.Checked;
         }
 
-        /// <summary>
-        /// Fired when NoSway checkbox has been adjusted
-        /// </summary>
-        private void chkNoSway_CheckedChanged(object sender, EventArgs e)
+        private void chkThrowPower_CheckedChanged(object sender, EventArgs e)
         {
-            _config.NoSwayEnabled = chkNoSway.Checked;
+            _config.ThrowPowerEnabled = chkThrowPower.Checked;
+            trkThrowPower.Visible = chkThrowPower.Checked;
+        }
+
+        private void chkMagDrills_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.MagDrillsEnabled = chkMagDrills.Checked;
+            trkMagDrills.Visible = chkMagDrills.Checked;
+        }
+
+        private void trkJumpPower_Scroll(object sender, EventArgs e)
+        {
+            _config.JumpPowerStrength = trkJumpPower.Value;
+
+            if (chkJumpPower.Checked && Memory.LocalPlayer is not null)
+            {
+                Memory.PlayerManager.SetMaxSkill(PlayerManager.Skills.JumpStrength);
+            }
+        }
+
+        private void trkThrowPower_Scroll(object sender, EventArgs e)
+        {
+            _config.ThrowPowerStrength = trkThrowPower.Value;
+
+            if (chkThrowPower.Checked && Memory.LocalPlayer is not null)
+            {
+                Memory.PlayerManager.SetMaxSkill(PlayerManager.Skills.ThrowStrength);
+            }
+        }
+
+        private void trkMagDrills_Scroll(object sender, EventArgs e)
+        {
+            _config.MagDrillSpeed = trkMagDrills.Value;
+
+            if (chkMagDrills.Checked && Memory.LocalPlayer is not null)
+            {
+                Memory.PlayerManager.SetMaxSkill(PlayerManager.Skills.MagDrillsLoad);
+                Memory.PlayerManager.SetMaxSkill(PlayerManager.Skills.MagDrillsUnload);
+            }
+        }
+
+        private void chkIncreaseMaxWeight_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.IncreaseMaxWeightEnabled = chkIncreaseMaxWeight.Checked;
+        }
+
+        private void chkDoubleSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.DoubleSearchEnabled = chkDoubleSearch.Checked;
+        }
+
+        private void chkShowLoot_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.LootEnabled = chkShowLoot.Checked;
+        }
+
+        private void chkQuestHelper_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.QuestHelperEnabled = chkQuestHelper.Checked;
+        }
+
+        private void picQuestItemsColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("QuestItem", picQuestItemsColor);
+        }
+
+        private void picQuestZonesColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("QuestZone", picQuestZonesColor);
+        }
+
+        private void chkHideExfilNames_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.HideExfilNames = chkHideExfilNames.Checked;
+        }
+
+        private void picExfilActiveColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilActiveText", picExfilActiveTextColor);
+        }
+
+        private void picExfilActiveIconColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilActiveIcon", picExfilActiveIconColor);
+        }
+
+        private void picExfilPendingColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilPendingText", picExfilPendingTextColor);
+        }
+
+        private void picExfilPendingIconColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilPendingIcon", picExfilPendingIconColor);
+        }
+
+        private void picExfilClosedColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilClosedText", picExfilClosedTextColor);
+        }
+
+        private void picExfilClosedIconColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("ExfilClosedIcon", picExfilClosedIconColor);
+        }
+
+        private void chkHideTextOutline_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.HideTextOutline = chkHideTextOutline.Checked;
         }
 
         /// <summary>
@@ -414,16 +527,17 @@ namespace eft_dma_radar
             _uiScale = (.01f * trkUIScale.Value);
             lblUIScale.Text = $"UI Scale {_uiScale.ToString("n2")}";
             #region UpdatePaints
-            SKPaints.PaintMouseoverGroup.StrokeWidth = 3 * _uiScale;
             SKPaints.TextMouseoverGroup.TextSize = 12 * _uiScale;
-            SKPaints.PaintBase.StrokeWidth = 3 * _uiScale;
             SKPaints.TextBase.TextSize = 12 * _uiScale;
+            SKPaints.TextLoot.TextSize = 13 * _uiScale;
+            SKPaints.TextBaseOutline.TextSize = 13 * _uiScale;
+            SKPaints.TextRadarStatus.TextSize = 48 * _uiScale;
+            SKPaints.PaintBase.StrokeWidth = 3 * _uiScale;
+            SKPaints.PaintMouseoverGroup.StrokeWidth = 3 * _uiScale;
             SKPaints.PaintDeathMarker.StrokeWidth = 3 * _uiScale;
             SKPaints.PaintLoot.StrokeWidth = 3 * _uiScale;
-            SKPaints.TextLoot.TextSize = 13 * _uiScale;
             SKPaints.PaintTransparentBacker.StrokeWidth = 1 * _uiScale;
             SKPaints.PaintAimviewCrosshair.StrokeWidth = 1 * _uiScale;
-            SKPaints.TextRadarStatus.TextSize = 48 * _uiScale;
             SKPaints.PaintGrenades.StrokeWidth = 3 * _uiScale;
             SKPaints.PaintExfilOpen.StrokeWidth = 1 * _uiScale;
             SKPaints.PaintExfilPending.StrokeWidth = 1 * _uiScale;
@@ -464,15 +578,17 @@ namespace eft_dma_radar
         /// </summary>
         private void MapCanvas_MouseMovePlayer(object sender, MouseEventArgs e)
         {
-            if (this.InGame) // Must be in-game
+            if (this.InGame && Memory.LocalPlayer is not null) // Must be in-game
             {
                 var players = this.AllPlayers
                     ?.Select(x => x.Value)
                     .Where(x => x.Type is not PlayerType.LocalPlayer && !x.HasExfild); // Get all players except LocalPlayer & Exfil'd Players
 
                 var loot = this.Loot?.Filter?.Select(x => x);
+                var tasksItems = this.QuestManager.QuestItems?.Select(x => x);
+                var tasksZones = this.QuestManager.QuestZones?.Select(x => x);
 
-                if ((players is not null && players.Any()) || (loot is not null && loot.Any()))
+                if ((players is not null && players.Any()) || (loot is not null && loot.Any()) || (tasksItems is not null && tasksItems.Any()) || (tasksZones is not null && tasksZones.Any()))
                 {
                     var mouse = new Vector2(e.X, e.Y); // Get current mouse position in control
 
@@ -531,17 +647,73 @@ namespace eft_dma_radar
                     }
                     else
                         ClearItemRefs();
+
+                    if (tasksItems is not null && tasksItems.Any())
+                    {
+                        var closestTaskItem = tasksItems.Aggregate(
+                            (x1, x2) =>
+                                Vector2.Distance(x1.ZoomedPosition, mouse)
+                                < Vector2.Distance(x2.ZoomedPosition, mouse)
+                                    ? x1
+                                    : x2
+                        ); // Get quest item object 'closest' to mouse position
+
+                        if (closestTaskItem is not null)
+                        {
+                            var dist = Vector2.Distance(closestTaskItem.ZoomedPosition, mouse);
+                            if (dist < 12) // See if 'closest object' is close enough.
+                            {
+                                _closestTaskItemToMouse = closestTaskItem; // Save ref to closest quest item object
+                            }
+                            else
+                                ClearTaskItemRefs();
+                        }
+                        else
+                            ClearTaskItemRefs();
+                    }
+                    else
+                        ClearTaskItemRefs();
+
+                    if (tasksZones is not null && tasksZones.Any())
+                    {
+                        var closestTaskZone = tasksZones.Aggregate(
+                            (x1, x2) =>
+                                Vector2.Distance(x1.ZoomedPosition, mouse)
+                                < Vector2.Distance(x2.ZoomedPosition, mouse)
+                                    ? x1
+                                    : x2
+                        ); // Get task zone 'closest' to mouse position
+
+                        if (closestTaskZone is not null)
+                        {
+                            var dist = Vector2.Distance(closestTaskZone.ZoomedPosition, mouse);
+                            if (dist < 12) // See if 'closest zone' is close enough.
+                            {
+                                _closestTaskZoneToMouse = closestTaskZone; // Save ref to closest zone object
+                            }
+                            else
+                                ClearTaskZoneRefs();
+                        }
+                        else
+                            ClearTaskZoneRefs();
+                    }
+                    else
+                        ClearTaskZoneRefs();
                 }
                 else
                 {
                     ClearPlayerRefs();
                     ClearItemRefs();
+                    ClearTaskItemRefs();
+                    ClearTaskZoneRefs();
                 }
             }
             else
             {
                 ClearPlayerRefs();
                 ClearItemRefs();
+                ClearTaskItemRefs();
+                ClearTaskZoneRefs();
             }
 
             void ClearPlayerRefs()
@@ -554,6 +726,17 @@ namespace eft_dma_radar
             {
                 _closestItemToMouse = null;
             }
+
+            void ClearTaskItemRefs()
+            {
+                _closestTaskItemToMouse = null;
+            }
+
+            void ClearTaskZoneRefs()
+            {
+                _closestTaskZoneToMouse = null;
+            }
+
         }
 
         /// <summary>
@@ -1090,6 +1273,16 @@ namespace eft_dma_radar
         {
             _config.ShowHoverArmor = chkShowHoverArmor.Checked;
         }
+
+        private void chkInstantADS_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.InstantADSEnabled = chkInstantADS.Checked;
+        }
+
+        private void picTextOutlineColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("TextOutline", picTextOutlineColor);
+        }
         #endregion
 
         #region Methods
@@ -1100,6 +1293,7 @@ namespace eft_dma_radar
         {
             trkAimLength.Value = _config.PlayerAimLineLength;
             chkShowLoot.Checked = _config.LootEnabled;
+            chkQuestHelper.Checked = _config.QuestHelperEnabled;
             chkShowAimview.Checked = _config.AimviewEnabled;
             chkHideNames.Checked = _config.HideNames;
             chkImportantLootOnly.Checked = _config.ImportantLootOnly;
@@ -1112,11 +1306,20 @@ namespace eft_dma_radar
             trkImportantLootValue.Value = _config.MinImportantLootValue / 1000;
             lblRegularLootDisplay.Text = TarkovDevAPIManager.FormatNumber(_config.MinLootValue);
             lblImportantLootDisplay.Text = TarkovDevAPIManager.FormatNumber(_config.MinImportantLootValue);
-
+            chkNoRecoilSway.Checked = _config.NoRecoilSwayEnabled;
             chkNightVision.Checked = _config.NightVisionEnabled;
             chkThermalVision.Checked = _config.ThermalVisionEnabled;
             chkOpticThermalVision.Checked = _config.OpticThermalVisionEnabled;
             chkNoVisor.Checked = _config.NoVisorEnabled;
+            chkIncreaseMaxWeight.Checked = _config.IncreaseMaxWeightEnabled;
+            chkInstantADS.Checked = _config.InstantADSEnabled;
+            chkDoubleSearch.Checked = _config.DoubleSearchEnabled;
+            chkJumpPower.Checked = _config.JumpPowerEnabled;
+            trkJumpPower.Value = _config.JumpPowerStrength;
+            chkThrowPower.Checked = _config.ThrowPowerEnabled;
+            trkThrowPower.Value = _config.ThrowPowerStrength;
+            chkMagDrills.Checked = _config.MagDrillsEnabled;
+            trkMagDrills.Value = _config.MagDrillSpeed;
 
             if (_config.Filters.Count == 0)
             { // add a default, blank config
@@ -1300,15 +1503,6 @@ namespace eft_dma_radar
         }
 
         /// <summary>
-        /// Returns proper label for Item.
-        /// </summary>
-        private string GetItemLabel(DevLootItem item)
-        {
-            var itemValue = (chkHideLootValue.Checked ? "" : $"[{TarkovDevAPIManager.FormatNumber(TarkovDevAPIManager.GetItemValue(item.Item))}] ");
-            return (item.AlwaysShow || item.Item.shortName is not null) ? $"{itemValue}{item.Item.shortName}" : "null";
-        }
-
-        /// <summary>
         /// Adds filters into the combo box for selection
         /// </summary>
         private void UpdateLootFilterComboBoxes()
@@ -1413,6 +1607,15 @@ namespace eft_dma_radar
             setColor(picTeamHoverColor, "TeamHover");
             setColor(picRegularLootColor, "RegularLoot");
             setColor(picImportantLootColor, "ImportantLoot");
+            setColor(picQuestItemsColor, "QuestItem");
+            setColor(picQuestZonesColor, "QuestZone");
+            setColor(picExfilActiveTextColor, "ExfilActiveText");
+            setColor(picExfilActiveIconColor, "ExfilActiveIcon");
+            setColor(picExfilPendingTextColor, "ExfilPendingText");
+            setColor(picExfilPendingIconColor, "ExfilPendingIcon");
+            setColor(picExfilClosedTextColor, "ExfilClosedText");
+            setColor(picExfilClosedIconColor, "ExfilClosedIcon");
+            setColor(picTextOutlineColor, "TextOutline");
         }
 
         /// <summary>
@@ -1542,6 +1745,8 @@ namespace eft_dma_radar
                     {
                         var closestPlayerToMouse = _closestPlayerToMouse; // cache ref
                         var closestItemToMouse = _closestItemToMouse; // cache ref
+                        var closestTaskItemToMouse = _closestTaskItemToMouse; // cache ref
+                        var closestTaskZoneToMouse = _closestTaskZoneToMouse; // cache ref
                         var mouseOverGrp = _mouseOverGroup; // cache value for entire render
                         // Get main player location
                         var localPlayerPos = localPlayer.Position;
@@ -1745,7 +1950,65 @@ namespace eft_dma_radar
                                     // coprses = ootItem {Position = pos,AlwaysShow = true,Label = "Corpse"
                                 }
                             }
+                            if (chkQuestHelper.Checked && !Memory.IsScav) // Draw quest items (if enabled)
+                            {
+                                var questItems = this.QuestManager.QuestItems; // cache ref
+                                if (questItems is not null)
+                                {
+                                    foreach (var item in questItems)
+                                    {
+                                        if (item.Position.X != 0)
+                                        {
+                                            float position = item.Position.Z - localPlayerMapPos.Height;
+                                            var itemZoomedPos = item.Position
+                                                                    .ToMapPos(_selectedMap)
+                                                                    .ToZoomedPos(mapParams);
 
+                                            item.ZoomedPosition = new Vector2() // Cache Position as Vec2 for MouseMove event
+                                            {
+                                                X = itemZoomedPos.X,
+                                                Y = itemZoomedPos.Y
+                                            };
+
+                                            itemZoomedPos.DrawQuestItem(
+                                                canvas,
+                                                item,
+                                                position
+                                            );
+
+                                        }
+                                    }
+                                }
+
+                                var questZones = this.QuestManager.QuestZones; // cache ref
+                                if (questZones is not null)
+                                {
+                                    foreach (var zone in questZones)
+                                    {
+                                        if (zone.MapName.ToLower() == _selectedMap.Name.ToLower())
+                                        {
+                                            float position = zone.Position.Z - localPlayerMapPos.Height;
+                                            ///Console.WriteLine("Position: " + position);
+                                            var questZoneZoomedPos = zone.Position
+                                                                    .ToMapPos(_selectedMap)
+                                                                    .ToZoomedPos(mapParams);
+
+                                            zone.ZoomedPosition = new Vector2() // Cache Position as Vec2 for MouseMove event
+                                            {
+                                                X = questZoneZoomedPos.X,
+                                                Y = questZoneZoomedPos.Y
+                                            };
+
+                                            questZoneZoomedPos.DrawTaskZone(
+                                                canvas,
+                                                zone,
+                                                position
+                                            );
+                                        }
+
+                                    }
+                                }
+                            }
                             var grenades = this.Grenades; // cache ref
                             if (grenades is not null) // Draw grenades
                             {
@@ -1764,6 +2027,11 @@ namespace eft_dma_radar
                             {
                                 foreach (var exfil in exfils)
                                 {
+                                    if (Memory.IsScav && exfil.Status == ExfilStatus.Pending)
+                                    {
+                                        continue;
+                                    }
+
                                     var exfilZoomedPos = exfil
                                         .Position
                                         .ToMapPos(_selectedMap)
@@ -1828,6 +2096,24 @@ namespace eft_dma_radar
                                 .ToMapPos(_selectedMap)
                                 .ToZoomedPos(mapParams);
                             itemZoomedPos.DrawContainerTooltip(canvas, closestItemToMouse);
+                        }
+
+                        if (closestTaskZoneToMouse is not null) // draw tooltip for player the mouse is closest to
+                        {
+                            var taskZoneZoomedPos = closestTaskZoneToMouse
+                                .Position
+                                .ToMapPos(_selectedMap)
+                                .ToZoomedPos(mapParams);
+                            taskZoneZoomedPos.DrawToolTip(canvas, closestTaskZoneToMouse);
+                        }
+
+                        if (closestTaskItemToMouse is not null) // draw tooltip for player the mouse is closest to
+                        {
+                            var taskItemZoomedPos = closestTaskItemToMouse
+                                .Position
+                                .ToMapPos(_selectedMap)
+                                .ToZoomedPos(mapParams);
+                            taskItemZoomedPos.DrawToolTip(canvas, closestTaskItemToMouse);
                         }
 
                         if (closestPlayerToMouse is not null) // draw tooltip for player the mouse is closest to
@@ -1905,6 +2191,7 @@ namespace eft_dma_radar
                     var myRotation = sourcePlayer.Rotation;
                     canvas.DrawRect(drawingLocation, SKPaints.PaintTransparentBacker); // draw backer
 
+                    // draw aimview players
                     if (aimviewPlayers is not null)
                     {
                         var normalizedDirection = -myRotation.X;
@@ -1992,6 +2279,7 @@ namespace eft_dma_radar
                             );
                         }
                     }
+
                     // draw crosshair at end
                     canvas.DrawLine(
                         drawingLocation.Left,
@@ -2024,6 +2312,7 @@ namespace eft_dma_radar
             this.Enabled = false; // Lock window
             _config.PlayerAimLineLength = trkAimLength.Value;
             _config.LootEnabled = chkShowLoot.Checked;
+            _config.QuestHelperEnabled = chkQuestHelper.Checked;
             _config.AimviewEnabled = chkShowAimview.Checked;
             _config.HideNames = chkHideNames.Checked;
             _config.ImportantLootOnly = chkImportantLootOnly.Checked;
@@ -2031,11 +2320,22 @@ namespace eft_dma_radar
             _config.DefaultZoom = trkZoom.Value;
             _config.UIScale = trkUIScale.Value;
             _config.PrimaryTeammateId = txtTeammateID.Text;
-
+            _config.NoRecoilSwayEnabled = chkNoRecoilSway.Checked;
             _config.ThermalVisionEnabled = chkThermalVision.Checked;
             _config.NightVisionEnabled = chkNightVision.Checked;
             _config.NoVisorEnabled = chkNoVisor.Checked;
             _config.OpticThermalVisionEnabled = chkOpticThermalVision.Checked;
+            _config.QuestHelperEnabled = chkQuestHelper.Checked;
+            _config.DoubleSearchEnabled = chkDoubleSearch.Checked;
+            _config.MagDrillsEnabled = chkMagDrills.Checked;
+            _config.MagDrillSpeed = trkMagDrills.Value;
+            _config.InstantADSEnabled = chkInstantADS.Checked;
+            _config.IncreaseMaxWeightEnabled = chkIncreaseMaxWeight.Checked;
+            _config.JumpPowerEnabled = chkJumpPower.Checked;
+            _config.JumpPowerStrength = trkJumpPower.Value;
+            _config.ThrowPowerEnabled = chkThrowPower.Checked;
+            _config.ThrowPowerStrength = trkThrowPower.Value;
+            _config.HideExfilNames = chkHideExfilNames.Checked;
 
             Config.SaveConfig(_config); // Save Config to Config.json
             Memory.Shutdown(); // Wait for Memory Thread to gracefully exit

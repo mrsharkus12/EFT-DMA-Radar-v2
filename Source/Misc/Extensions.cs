@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using Offsets;
+using SkiaSharp;
 
 namespace eft_dma_radar
 {
@@ -86,7 +87,7 @@ namespace eft_dma_radar
         /// <summary>
         /// Gets drawing paintbrush based on Player Type
         /// </summary>
-        public static SKPaint GetPaint(this Player player) {
+        public static SKPaint GetEntityPaint(this Player player) {
             SKPaint basePaint = SKPaints.PaintBase.Clone();
 
             basePaint.Color = player.Type switch {
@@ -97,7 +98,7 @@ namespace eft_dma_radar
                 PlayerType.AIScav => SKColorFromPaintColor("AIScav"),
                 PlayerType.AIBoss => SKColorFromPaintColor("Boss"),
                 PlayerType.AIOfflineScav => SKColorFromPaintColor("AIScav"),
-                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRouge or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
+                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRogue or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
                 PlayerType.AISniperScav => SKColorFromPaintColor(""),
                 PlayerType.PScav => SKColorFromPaintColor("PScav"),
 
@@ -109,12 +110,78 @@ namespace eft_dma_radar
         }
 
         /// <summary>
+        /// Determines the items paint color.
+        /// </summary>
+        public static SKPaint GetEntityPaint(DevLootItem item)
+        {
+            int value = TarkovDevAPIManager.GetItemValue(item.Item);
+            bool isImportant = (item.Important || value >= Program.Config.MinImportantLootValue);
+            bool isFiltered = Memory.Loot.LootFilterColors.ContainsKey(item.Item.id);
+
+            SKPaint paintToUse = SKPaints.PaintLoot.Clone();
+
+            if (isFiltered)
+            {
+                LootFilter.Colors col = Memory.Loot.LootFilterColors[item.Item.id];
+                paintToUse.Color = new SKColor(col.R, col.G, col.B, col.A);
+            }
+            else if (isImportant)
+            {
+                paintToUse.Color = Extensions.SKColorFromPaintColor("ImportantLoot");
+            }
+            else
+            {
+                paintToUse.Color = Extensions.SKColorFromPaintColor("RegularLoot");
+            }
+
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the quest items paint color.
+        /// </summary>
+        public static SKPaint GetEntityPaint(QuestItem item)
+        {
+            SKPaint paintToUse = SKPaints.PaintLoot.Clone();
+            paintToUse.Color = Extensions.SKColorFromPaintColor("QuestItem");
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the quest zone paint color.
+        /// </summary>
+        public static SKPaint GetEntityPaint(QuestZone zone)
+        {
+            SKPaint paintToUse = SKPaints.PaintLoot.Clone();
+            paintToUse.Color = Extensions.SKColorFromPaintColor("QuestZone");
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the exfil paint color.
+        /// </summary>
+        public static SKPaint GetEntityPaint(Exfil exfil)
+        {
+            SKPaint paintToUse = SKPaints.PaintLoot.Clone();
+            paintToUse.Color = exfil.Status switch
+            {
+                ExfilStatus.Open => SKColorFromPaintColor("ExfilActiveIcon"),
+                ExfilStatus.Pending => SKColorFromPaintColor("ExfilPendingIcon"),
+                ExfilStatus.Closed => SKColorFromPaintColor("ExfilClosedIcon"),
+                _ => SKColorFromPaintColor("ExfilClosedIcon"),
+            };
+
+            return paintToUse;
+        }
+
+        /// <summary>
         /// Gets text paintbrush based on Player Type
         /// </summary>
-        public static SKPaint GetText(this Player player) {
+        public static SKPaint GetTextPaint(this Player player)
+        {
             SKPaint baseText = SKPaints.TextBase.Clone();
-
-            baseText.Color = player.Type switch {
+            baseText.Color = player.Type switch
+            {
                 PlayerType.LocalPlayer => SKColorFromPaintColor("LocalPlayer"),
                 PlayerType.Teammate => SKColorFromPaintColor("Teammate"),
                 PlayerType.BEAR => SKColorFromPaintColor("BEAR"),
@@ -122,7 +189,7 @@ namespace eft_dma_radar
                 PlayerType.AIScav => SKColorFromPaintColor("AIScav"),
                 PlayerType.AIBoss => SKColorFromPaintColor("Boss"),
                 PlayerType.AIOfflineScav => SKColorFromPaintColor("AIScav"),
-                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRouge or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
+                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRogue or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
                 PlayerType.AISniperScav => SKColorFromPaintColor(""),
                 PlayerType.PScav => SKColorFromPaintColor("PScav"),
 
@@ -131,6 +198,81 @@ namespace eft_dma_radar
             };
 
             return baseText;
+        }
+
+        /// <summary>
+        /// Determines the loot items text color.
+        /// </summary>
+        public static SKPaint GetTextPaint(DevLootItem item)
+        {
+            int value = TarkovDevAPIManager.GetItemValue(item.Item);
+            bool isImportant = (item.Important || value >= Program.Config.MinImportantLootValue);
+            bool isFiltered = Memory.Loot.LootFilterColors.ContainsKey(item.Item.id);
+
+            SKPaint paintToUse = SKPaints.TextLoot.Clone();
+
+            if (isFiltered)
+            {
+                LootFilter.Colors col = Memory.Loot.LootFilterColors[item.Item.id];
+                paintToUse.Color = new SKColor(col.R, col.G, col.B, col.A);
+            }
+            else if (isImportant)
+            {
+                paintToUse.Color = Extensions.SKColorFromPaintColor("ImportantLoot");
+            }
+            else
+            {
+                paintToUse.Color = Extensions.SKColorFromPaintColor("RegularLoot");
+            }
+
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the quest items text color.
+        /// </summary>
+        public static SKPaint GetTextPaint(QuestItem item)
+        {
+            SKPaint paintToUse = SKPaints.TextLoot.Clone();
+            paintToUse.Color = Extensions.SKColorFromPaintColor("QuestItem");
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the quest zones text color.
+        /// </summary>
+        public static SKPaint GetTextPaint(QuestZone zone)
+        {
+            SKPaint paintToUse = SKPaints.TextLoot.Clone();
+            paintToUse.Color = Extensions.SKColorFromPaintColor("QuestZone");
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the exfil text color.
+        /// </summary>
+        public static SKPaint GetTextPaint(Exfil exfil)
+        {
+            SKPaint paintToUse = SKPaints.TextLoot.Clone();
+            paintToUse.Color = exfil.Status switch
+            {
+                ExfilStatus.Open => SKColorFromPaintColor("ExfilActiveText"),
+                ExfilStatus.Pending => SKColorFromPaintColor("ExfilPendingText"),
+                ExfilStatus.Closed => SKColorFromPaintColor("ExfilClosedText"),
+                _ => SKColorFromPaintColor("ExfilClosedText"),
+            };
+
+            return paintToUse;
+        }
+
+        /// <summary>
+        /// Determines the text outline color.
+        /// </summary>
+        public static SKPaint GetTextOutlinePaint()
+        {
+            SKPaint paintToUse = SKPaints.TextBaseOutline.Clone();
+            paintToUse.Color = Extensions.SKColorFromPaintColor("TextOutline");
+            return paintToUse;
         }
 
         /// <summary>
@@ -150,7 +292,7 @@ namespace eft_dma_radar
                 PlayerType.AIScav => SKColorFromPaintColor("AIScav"),
                 PlayerType.AIBoss => SKColorFromPaintColor("Boss"),
                 PlayerType.AIOfflineScav => SKColorFromPaintColor("AIScav"),
-                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRouge or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
+                PlayerType.AIRaider or PlayerType.AIBossGuard or PlayerType.AIRogue or PlayerType.AIBossFollower => SKColorFromPaintColor("AIRaider"),
                 PlayerType.AISniperScav => SKColorFromPaintColor(""),
                 PlayerType.PScav => SKColorFromPaintColor("PScav"),
 
@@ -176,173 +318,6 @@ namespace eft_dma_radar
                     return SKPaints.PaintExfilClosed;
                 default:
                     return SKPaints.PaintExfilClosed;
-            }
-        }
-        #endregion
-
-        #region Custom EFT Extensions
-        public static AIRole GetRole(this WildSpawnType type)
-        {
-            switch (type)
-            {
-                case WildSpawnType.marksman:
-                    return new AIRole()
-                    {
-                        Name = "Sniper",
-                        Type = PlayerType.AIScav
-                    };
-                case WildSpawnType.assault:
-                    return new AIRole()
-                    {
-                        Name = "Scav",
-                        Type = PlayerType.AIScav
-                    };
-                case WildSpawnType.bossTest:
-                    return new AIRole()
-                    {
-                        Name = "bossTest",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.bossBully:
-                    return new AIRole()
-                    {
-                        Name = "Reshala",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.followerTest:
-                    return new AIRole()
-                    {
-                        Name = "followerTest",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.followerBully:
-                    return new AIRole()
-                    {
-                        Name = "Guard",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.bossKilla:
-                    return new AIRole()
-                    {
-                        Name = "Killa",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.bossKojaniy:
-                    return new AIRole()
-                    {
-                        Name = "Shturman",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.followerKojaniy:
-                    return new AIRole()
-                    {
-                        Name = "Guard",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.pmcBot:
-                    return new AIRole()
-                    {
-                        Name = "Raider",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.cursedAssault:
-                    return new AIRole()
-                    {
-                        Name = "Scav",
-                        Type = PlayerType.AIScav
-                    };
-                case WildSpawnType.bossGluhar:
-                    return new AIRole()
-                    {
-                        Name = "Gluhar",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.followerGluharAssault:
-                    return new AIRole()
-                    {
-                        Name = "Assault",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.followerGluharSecurity:
-                    return new AIRole()
-                    {
-                        Name = "Security",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.followerGluharScout:
-                    return new AIRole()
-                    {
-                        Name = "Scout",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.followerGluharSnipe:
-                    return new AIRole()
-                    {
-                        Name = "Sniper",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.followerSanitar:
-                    return new AIRole()
-                    {
-                        Name = "Guard",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.bossSanitar:
-                    return new AIRole()
-                    {
-                        Name = "Sanitar",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.test:
-                    return new AIRole()
-                    {
-                        Name = "test",
-                        Type = PlayerType.AIScav
-                    };
-                case WildSpawnType.assaultGroup:
-                    return new AIRole()
-                    {
-                        Name = "assaultGroup",
-                        Type = PlayerType.AIScav
-                    };
-                case WildSpawnType.sectantWarrior:
-                    return new AIRole()
-                    {
-                        Name = "Cultist",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.sectantPriest:
-                    return new AIRole()
-                    {
-                        Name = "Priest",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.bossTagilla:
-                    return new AIRole()
-                    {
-                        Name = "Tagilla",
-                        Type = PlayerType.AIBoss
-                    };
-                case WildSpawnType.followerTagilla:
-                    return new AIRole()
-                    {
-                        Name = "Guard",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.exUsec:
-                    return new AIRole()
-                    {
-                        Name = "Rogue",
-                        Type = PlayerType.AIRaider
-                    };
-                case WildSpawnType.gifter:
-                    return new AIRole()
-                    {
-                        Name = "SANTA",
-                        Type = PlayerType.AIScav
-                    };
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
         #endregion
