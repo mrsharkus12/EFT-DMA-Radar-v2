@@ -115,7 +115,7 @@ namespace eft_dma_radar.Source.Tarkov
 
             if (on && mask != 1)
             {
-                Memory.WriteValue(this.proceduralWeaponAnimation + 0x138, 1);
+                Memory.WriteValue(this.proceduralWeaponAnimation + 0x138, 0);
             }
             else if (!on && mask == 1)
             {
