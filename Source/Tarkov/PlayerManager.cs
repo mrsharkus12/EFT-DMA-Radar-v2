@@ -115,6 +115,23 @@ namespace eft_dma_radar.Source.Tarkov
 
             if (on && mask != 1)
             {
+                Memory.WriteValue(this.proceduralWeaponAnimation + 0x138, 1);
+            }
+            else if (!on && mask == 1)
+            {
+                Memory.WriteValue(this.proceduralWeaponAnimation + 0x138, (int)this.OriginalValues["Mask"]);
+            }
+        }
+
+        /// <summary>
+        /// Enables / disables weapon recoil/sway
+        /// </summary>
+        public void SetNoRecoilLegacy(bool on)
+        {
+            var mask = Memory.ReadValue<int>(this.proceduralWeaponAnimation + 0x138);
+
+            if (on && mask != 1)
+            {
                 Memory.WriteValue(this.proceduralWeaponAnimation + 0x138, 0);
             }
             else if (!on && mask == 1)

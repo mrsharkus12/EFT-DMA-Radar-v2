@@ -276,6 +276,14 @@ namespace eft_dma_radar
         }
 
         /// <summary>
+        /// Fired when No Recoil checkbox has been adjusted
+        /// </summary>
+        private void chkNoRecoilLegacy_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.NoRecoilLegacyEnabled = chkNoRecoilLegacy.Checked;
+        }
+
+        /// <summary>
         /// Fired when No /Sway checkbox has been adjusted
         /// </summary>
         private void chkNoSway_CheckedChanged(object sender, EventArgs e)
@@ -407,7 +415,7 @@ namespace eft_dma_radar
             bool isChecked = chkMasterSwitch.Checked;
             _config.MasterSwitchEnabled = isChecked;
             grpGlobalFeatures.Enabled = isChecked;
-            grpGearFeatures.Enabled = isChecked;
+            grpCameraFeatures.Enabled = isChecked;
             grpPhysicalFeatures.Enabled = isChecked;
         }
 
@@ -1385,7 +1393,7 @@ namespace eft_dma_radar
         {
             chkMasterSwitch.Checked = _config.MasterSwitchEnabled;
             grpGlobalFeatures.Enabled = _config.MasterSwitchEnabled;
-            grpGearFeatures.Enabled = _config.MasterSwitchEnabled;
+            grpCameraFeatures.Enabled = _config.MasterSwitchEnabled;
             grpPhysicalFeatures.Enabled = _config.MasterSwitchEnabled;
 
             trkAimLength.Value = _config.PlayerAimLineLength;
@@ -1408,6 +1416,7 @@ namespace eft_dma_radar
             lblCorpseDisplay.Text = TarkovDevManager.FormatNumber(_config.MinCorpseValue);
             lblSubItemDisplay.Text = TarkovDevManager.FormatNumber(_config.MinSubItemValue);
             chkNoRecoil.Checked = _config.NoRecoilEnabled;
+            chkNoRecoilLegacy.Checked = _config.NoRecoilLegacyEnabled;
             chkNoSway.Checked = _config.NoSwayEnabled;
             chkNightVision.Checked = _config.NightVisionEnabled;
             chkThermalVision.Checked = _config.ThermalVisionEnabled;
@@ -2516,6 +2525,7 @@ namespace eft_dma_radar
 
             base.OnMouseWheel(e);
         }
+
     }
     #endregion
 }

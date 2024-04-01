@@ -72,6 +72,9 @@ namespace eft_dma_radar.Source.Tarkov
             // No Recoil
             this._playerManager.SetNoRecoil(this._config.NoRecoilEnabled);
 
+            // No Recoil Legacy
+            this._playerManager.SetNoRecoilLegacy(this._config.NoRecoilLegacyEnabled);
+
             // Instant ADS
             this._playerManager.SetInstantADS(this._config.InstantADSEnabled);
 

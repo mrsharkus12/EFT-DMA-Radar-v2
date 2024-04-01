@@ -17,6 +17,7 @@
     public struct ModuleBase
     {
         public const uint GameObjectManager = 0x17FFD28; // to eft_dma_radar.GameObjectManager
+        public const uint AllCameras = 0x179F500; 
     }
     public struct GameObject
     {
@@ -27,6 +28,7 @@
     public struct GameWorld
     {
         public static readonly uint[] To_LocalGameWorld = new uint[] { GameObject.ObjectClass, 0x18, 0x28 };
+        public static readonly uint[] To_ViewMatrix = new uint[] { GameObject.ObjectClass, 0x18 };
     }
     public struct LocalGameWorld // [Class] -.ClientLocalGameWorld : ClientGameWorld
     {
@@ -60,6 +62,7 @@
     {
         //public static readonly uint[] To_TransformInternal = new uint[] { 0xA8, 0x28, 0x28, 0x10, 0x20, 0x10 }; // to TransformInternal
         public static readonly uint[] To_TransformInternal = new uint[] { 0xA8, 0x28, 0x28, 0x10, 0x20 + (0 * 0x8), 0x10 }; // to TransformInternal
+        public static readonly uint[] To_BoneMatrix = new uint[] { 0xA8, 0x28, 0x28, 0x10 };
         public const uint MovementContext = 0x40; // to MovementContext
         public const uint Corpse = 0x390; // EFT.Interactive.Corpse
         public const uint Profile = 0x588; // to Profile
@@ -89,6 +92,7 @@
         public const uint ObservedPlayerController = 0x80; // to PlayerController
         public static readonly uint[] To_MovementContext = new uint[] { 0x80, 0xC8, 0x10 }; // to MovementContext
         public static readonly uint[] To_TransformInternal = new uint[] { 0x60, 0x28, 0x28, 0x10, 0x20, 0x10 }; // to TransformInternal
+        public static readonly uint[] To_BoneMatrix = new uint[] { 0x60, 0x28, 0x28, 0x10 };
     }
 
     public struct ObservedPlayerController //[Class] -.GClass1E0D : Object, GInterface94D4, IDisposable

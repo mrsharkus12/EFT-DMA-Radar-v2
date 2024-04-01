@@ -168,6 +168,12 @@ namespace eft_dma_radar
         public bool NoRecoilEnabled { get; set; }
 
         /// <summary>
+        /// Enables / disables no recoil (legacy).
+        /// </summary>
+        [JsonPropertyName("NoRecoilLegacyEnabled")]
+        public bool NoRecoilLegacyEnabled { get; set; }
+
+        /// <summary>
         /// Enables / disables no sway.
         /// </summary>
         [JsonPropertyName("noSwayEnabled")]
