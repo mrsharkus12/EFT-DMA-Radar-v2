@@ -133,6 +133,8 @@ namespace eft_dma_radar
             chkHideLootValue = new CheckBox();
             chkImportantLootOnly = new CheckBox();
             grpUserInterface = new GroupBox();
+            lblAimviewSize = new Label();
+            trkAimviewSize = new TrackBar();
             chkHideTextOutline = new CheckBox();
             chkHideExfilNames = new CheckBox();
             chkQuestHelper = new CheckBox();
@@ -229,6 +231,7 @@ namespace eft_dma_radar
             ((System.ComponentModel.ISupportInitialize)trkImportantLootValue).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trkRegularLootValue).BeginInit();
             grpUserInterface.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trkAimviewSize).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trkAimLength).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trkZoom).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trkUIScale).BeginInit();
@@ -532,7 +535,7 @@ namespace eft_dma_radar
             lblStreamerColor.Size = new Size(81, 15);
             lblStreamerColor.TabIndex = 58;
             lblStreamerColor.Text = "Live Streamer:";
-            toolTip.SetToolTip(lblStreamerColor, "Color of special players (watchlisted players)");
+            toolTip.SetToolTip(lblStreamerColor, "Color of players that are live");
             // 
             // picSpecialColor
             // 
@@ -1364,6 +1367,8 @@ namespace eft_dma_radar
             // 
             // grpUserInterface
             // 
+            grpUserInterface.Controls.Add(lblAimviewSize);
+            grpUserInterface.Controls.Add(trkAimviewSize);
             grpUserInterface.Controls.Add(chkHideTextOutline);
             grpUserInterface.Controls.Add(chkHideExfilNames);
             grpUserInterface.Controls.Add(chkQuestHelper);
@@ -1385,6 +1390,29 @@ namespace eft_dma_radar
             grpUserInterface.TabIndex = 26;
             grpUserInterface.TabStop = false;
             grpUserInterface.Text = "UI";
+            // 
+            // lblAimviewSize
+            // 
+            lblAimviewSize.AutoSize = true;
+            lblAimviewSize.Location = new Point(243, 149);
+            lblAimviewSize.Name = "lblAimviewSize";
+            lblAimviewSize.Size = new Size(76, 15);
+            lblAimviewSize.TabIndex = 34;
+            lblAimviewSize.Text = "Aimview Size";
+            lblAimviewSize.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // trkAimviewSize
+            // 
+            trkAimviewSize.LargeChange = 10;
+            trkAimviewSize.Location = new Point(335, 149);
+            trkAimviewSize.Maximum = 400;
+            trkAimviewSize.Minimum = 50;
+            trkAimviewSize.Name = "trkAimviewSize";
+            trkAimviewSize.Size = new Size(118, 45);
+            trkAimviewSize.TabIndex = 33;
+            trkAimviewSize.TickStyle = TickStyle.None;
+            toolTip.SetToolTip(trkAimviewSize, "Scales the Aimview window");
+            trkAimviewSize.Value = 100;
             // 
             // chkHideTextOutline
             // 
@@ -2112,6 +2140,7 @@ namespace eft_dma_radar
             ((System.ComponentModel.ISupportInitialize)trkRegularLootValue).EndInit();
             grpUserInterface.ResumeLayout(false);
             grpUserInterface.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trkAimviewSize).EndInit();
             ((System.ComponentModel.ISupportInitialize)trkAimLength).EndInit();
             ((System.ComponentModel.ISupportInitialize)trkZoom).EndInit();
             ((System.ComponentModel.ISupportInitialize)trkUIScale).EndInit();
@@ -2301,6 +2330,8 @@ namespace eft_dma_radar
         private Label lblSpecialColor;
         private PictureBox picStreamerColor;
         private Label lblStreamerColor;
+        private Label lblAimviewSize;
+        private TrackBar trkAimviewSize;
     }
 }
 

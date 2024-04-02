@@ -76,6 +76,11 @@ namespace eft_dma_radar
         [JsonPropertyName("uiScale")]
         public int UIScale { get; set; }
         /// <summary>
+        /// AimviewWindowScale Value (50-400 , default: 100)
+        /// </summary>
+        [JsonPropertyName("AimviewWindowScale")]
+        public int AimviewWindowScale { get; set; }
+        /// <summary>
         /// Enables loot output on map.
         /// </summary>
         [JsonPropertyName("lootEnabled")]
@@ -324,6 +329,7 @@ namespace eft_dma_radar
             PlayerAimLineLength = 1000;
             DefaultZoom = 100;
             UIScale = 100;
+            AimviewWindowScale = 100;
             LootEnabled = true;
             QuestHelperEnabled = true;
             AimviewEnabled = false;

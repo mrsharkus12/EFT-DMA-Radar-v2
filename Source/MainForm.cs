@@ -12,6 +12,9 @@ namespace eft_dma_radar
 {
     public partial class frmMain : Form
     {
+        string Version = "0.2";
+        string Revision = "r0";
+
         private readonly Config _config;
         private readonly SKGLControl _mapCanvas;
         private readonly Stopwatch _fpsWatch = new();
@@ -20,6 +23,7 @@ namespace eft_dma_radar
         private readonly List<Map> _maps = new(); // Contains all maps from \\Maps folder
 
         private float _uiScale = 1.0f;
+        private float _aimviewWindowScale = 1.0f;
         private float _aimviewWindowSize = 200;
         private Player _closestPlayerToMouse = null;
         private LootItem _closestItemToMouse = null;
@@ -133,6 +137,7 @@ namespace eft_dma_radar
             tabRadar.Controls.Add(_mapCanvas); // place Radar Map Canvas on top of TabPage1
             chkMapFree.Parent = _mapCanvas; // change parent for checkBox_MapFree 'button'
             trkUIScale.ValueChanged += trkUIScale_ValueChanged; // Handle UI Adjustments
+            trkAimviewSize.ValueChanged += trkAimviewSize_ValueChanged;
 
             LoadConfig();
             LoadMaps();
@@ -645,6 +650,14 @@ namespace eft_dma_radar
             _aimviewWindowSize = 200 * _uiScale;
         }
 
+        /// <summary>
+        /// Fired when Aimview Scale Trackbar is Adjusted
+        /// </summary>
+        private void trkAimviewSize_ValueChanged(object sender, EventArgs e)
+        {
+            _aimviewWindowScale = (.01f * trkAimviewSize.Value);
+            _aimviewWindowSize = 200 * _aimviewWindowScale;
+        }
         /// <summary>
         /// Event fires when the "Map Free" or "Map Follow" checkbox (button) is clicked on the Main Window.
         /// </summary>
@@ -1420,6 +1433,7 @@ namespace eft_dma_radar
             chkShowHoverArmor.Checked = _config.ShowHoverArmor;
             trkZoom.Value = _config.DefaultZoom;
             trkUIScale.Value = _config.UIScale;
+            trkAimviewSize.Value = _config.AimviewWindowScale;
             txtTeammateID.Text = _config.PrimaryTeammateId;
             trkRegularLootValue.Value = _config.MinLootValue / 1000;
             trkImportantLootValue.Value = _config.MinImportantLootValue / 1000;
@@ -1791,7 +1805,7 @@ namespace eft_dma_radar
                 if (_fpsWatch.ElapsedMilliseconds >= 1000)
                 {
                     _mapCanvas.GRContext.PurgeResources(); // Seems to fix mem leak issue on increasing resource cache
-                    string title = "EFT Radar";
+                    string title = "Radar " + Version;
                     if (inGame && localPlayer is not null)
                     {
                         // Check if map changed
@@ -2454,6 +2468,7 @@ namespace eft_dma_radar
             _config.HideLootValue = chkHideLootValue.Checked;
             _config.DefaultZoom = trkZoom.Value;
             _config.UIScale = trkUIScale.Value;
+            _config.AimviewWindowScale = trkAimviewSize.Value;
             _config.PrimaryTeammateId = txtTeammateID.Text;
             _config.NoRecoilEnabled = chkNoRecoil.Checked;
             _config.NoSwayEnabled = chkNoSway.Checked;
