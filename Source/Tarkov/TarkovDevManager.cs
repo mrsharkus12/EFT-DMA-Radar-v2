@@ -26,7 +26,7 @@ namespace eft_dma_radar
             var allQuestItems = new Dictionary<string, QuestItems>(StringComparer.OrdinalIgnoreCase);
             var allTasks = new Dictionary<string, Tasks>(StringComparer.OrdinalIgnoreCase);
             var allLootContainers = new Dictionary<string, LootContainerInfo>(StringComparer.OrdinalIgnoreCase);
-            if (!File.Exists("api_tarkov_dev_items.json") || File.GetLastWriteTime("api_tarkov_dev_items.json").AddHours(480) < DateTime.Now) // only update every 480h
+            if (!File.Exists("api_tarkov_dev_items.json") || File.GetLastWriteTime("api_tarkov_dev_items.json").AddHours(4) < DateTime.Now) // only update every 4h
             {
                 using (var client = new HttpClient())
                 {

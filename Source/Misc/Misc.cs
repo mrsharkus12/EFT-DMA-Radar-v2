@@ -354,6 +354,7 @@ namespace eft_dma_radar
                 ["Teammate"] = new PaintColor.Colors { A = 255, R = 50, G = 205, B = 50 },
                 ["TeamHover"] = new PaintColor.Colors { A = 255, R = 125, G = 252, B = 50 },
                 ["Special"] = new PaintColor.Colors { A = 255, R = 255, G = 105, B = 180 },
+                ["Streamer"] = new PaintColor.Colors { A = 255, R = 100, G = 65, B = 165 },
                 ["RegularLoot"] = new PaintColor.Colors { A = 255, R = 245, G = 245, B = 245 },
                 ["ImportantLoot"] = new PaintColor.Colors { A = 255, R = 64, G = 224, B = 208 },
                 ["QuestItem"] = new PaintColor.Colors { A = 255, R = 255, G = 0, B = 128 },
@@ -365,7 +366,7 @@ namespace eft_dma_radar
                 ["ExfilClosedText"] = new PaintColor.Colors { A = 255, R = 255, G = 255, B = 255 },
                 ["ExfilClosedIcon"] = new PaintColor.Colors { A = 255, R = 255, G = 0, B = 0 },
                 ["TextOutline"] = new PaintColor.Colors { A = 255, R = 0, G = 0, B = 0 },
-                ["DeathMarker"] = new PaintColor.Colors { A = 255, R = 0, G = 0, B = 0 }
+                ["DeathMarker"] = new PaintColor.Colors { A = 255, R = 255, G = 0, B = 0 }
             };
 
             NightVisionEnabled = false;
@@ -1665,7 +1666,11 @@ namespace eft_dma_radar
         AISniperScav,
         AIBossGuard,
         AIBossFollower,
-        
+        /// <summary>
+        /// Human Controlled Hostile PMC that is live on streaming platform.
+        /// </summary>
+        Streamer,
+
     }
     /// <summary>
     /// Defines Role for an AI Bot Player.
@@ -2234,6 +2239,11 @@ namespace eft_dma_radar
         "Zimovey",
         "Zlomraz",
         "Zloveschun"
+        };
+
+        public static string[] StreamerSuffixes = { 
+            "_TTV",
+            "_TV",
         };
 
         public static string TransliterateCyrillic(string input)

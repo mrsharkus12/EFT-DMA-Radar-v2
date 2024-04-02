@@ -53,7 +53,11 @@ namespace eft_dma_radar
             tabSettings = new TabPage();
             grpConfig = new GroupBox();
             grpColors = new GroupBox();
+            picStreamerColor = new PictureBox();
+            lblStreamerColor = new Label();
+            picSpecialColor = new PictureBox();
             picDeathMarkerColor = new PictureBox();
+            lblSpecialColor = new Label();
             lblDeathMarkerColor = new Label();
             picTextOutlineColor = new PictureBox();
             lblTextOutlineColor = new Label();
@@ -193,6 +197,8 @@ namespace eft_dma_radar
             tabSettings.SuspendLayout();
             grpConfig.SuspendLayout();
             grpColors.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picStreamerColor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picSpecialColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picDeathMarkerColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picTextOutlineColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picExfilClosedIconColor).BeginInit();
@@ -333,16 +339,15 @@ namespace eft_dma_radar
             // 
             // lstViewLootFilter
             // 
-            lstViewLootFilter.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lstViewLootFilter.AutoArrange = false;
             lstViewLootFilter.Columns.AddRange(new ColumnHeader[] { colHeadBSGId, colHeadFullName, colHeadShortName, colHeadValue });
             lstViewLootFilter.FullRowSelect = true;
             lstViewLootFilter.GridLines = true;
             lstViewLootFilter.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            lstViewLootFilter.Location = new Point(3, 35);
+            lstViewLootFilter.Location = new Point(3, 32);
             lstViewLootFilter.MultiSelect = false;
             lstViewLootFilter.Name = "lstViewLootFilter";
-            lstViewLootFilter.Size = new Size(1115, 475);
+            lstViewLootFilter.Size = new Size(1115, 563);
             lstViewLootFilter.TabIndex = 0;
             lstViewLootFilter.UseCompatibleStateImageBehavior = false;
             lstViewLootFilter.View = View.Details;
@@ -456,7 +461,11 @@ namespace eft_dma_radar
             // 
             // grpColors
             // 
+            grpColors.Controls.Add(picStreamerColor);
+            grpColors.Controls.Add(lblStreamerColor);
+            grpColors.Controls.Add(picSpecialColor);
             grpColors.Controls.Add(picDeathMarkerColor);
+            grpColors.Controls.Add(lblSpecialColor);
             grpColors.Controls.Add(lblDeathMarkerColor);
             grpColors.Controls.Add(picTextOutlineColor);
             grpColors.Controls.Add(lblTextOutlineColor);
@@ -505,29 +514,70 @@ namespace eft_dma_radar
             grpColors.TabStop = false;
             grpColors.Text = "Colors";
             // 
+            // picStreamerColor
+            // 
+            picStreamerColor.BackColor = Color.Transparent;
+            picStreamerColor.Location = new Point(108, 252);
+            picStreamerColor.Name = "picStreamerColor";
+            picStreamerColor.Size = new Size(47, 18);
+            picStreamerColor.TabIndex = 59;
+            picStreamerColor.TabStop = false;
+            picStreamerColor.Click += picStreamerColor_Click;
+            // 
+            // lblStreamerColor
+            // 
+            lblStreamerColor.AutoSize = true;
+            lblStreamerColor.Location = new Point(20, 252);
+            lblStreamerColor.Name = "lblStreamerColor";
+            lblStreamerColor.Size = new Size(81, 15);
+            lblStreamerColor.TabIndex = 58;
+            lblStreamerColor.Text = "Live Streamer:";
+            toolTip.SetToolTip(lblStreamerColor, "Color of special players (watchlisted players)");
+            // 
+            // picSpecialColor
+            // 
+            picSpecialColor.BackColor = Color.Transparent;
+            picSpecialColor.Location = new Point(108, 228);
+            picSpecialColor.Name = "picSpecialColor";
+            picSpecialColor.Size = new Size(47, 18);
+            picSpecialColor.TabIndex = 57;
+            picSpecialColor.TabStop = false;
+            picSpecialColor.Click += picSpecialColor_Click;
+            // 
             // picDeathMarkerColor
             // 
             picDeathMarkerColor.BackColor = Color.Transparent;
-            picDeathMarkerColor.Location = new Point(108, 492);
+            picDeathMarkerColor.Location = new Point(108, 540);
             picDeathMarkerColor.Name = "picDeathMarkerColor";
             picDeathMarkerColor.Size = new Size(47, 18);
             picDeathMarkerColor.TabIndex = 55;
             picDeathMarkerColor.TabStop = false;
             picDeathMarkerColor.Click += picDeathMarkerColor_Click;
             // 
+            // lblSpecialColor
+            // 
+            lblSpecialColor.AutoSize = true;
+            lblSpecialColor.Location = new Point(54, 228);
+            lblSpecialColor.Name = "lblSpecialColor";
+            lblSpecialColor.Size = new Size(47, 15);
+            lblSpecialColor.TabIndex = 56;
+            lblSpecialColor.Text = "Special:";
+            toolTip.SetToolTip(lblSpecialColor, "Color of special players (watchlisted players)");
+            // 
             // lblDeathMarkerColor
             // 
             lblDeathMarkerColor.AutoSize = true;
-            lblDeathMarkerColor.Location = new Point(21, 492);
+            lblDeathMarkerColor.Location = new Point(21, 540);
             lblDeathMarkerColor.Name = "lblDeathMarkerColor";
             lblDeathMarkerColor.Size = new Size(81, 15);
             lblDeathMarkerColor.TabIndex = 54;
             lblDeathMarkerColor.Text = "Death Marker:";
+            toolTip.SetToolTip(lblDeathMarkerColor, "Color of death markers (crosses on map)");
             // 
             // picTextOutlineColor
             // 
             picTextOutlineColor.BackColor = Color.Transparent;
-            picTextOutlineColor.Location = new Point(108, 468);
+            picTextOutlineColor.Location = new Point(108, 516);
             picTextOutlineColor.Name = "picTextOutlineColor";
             picTextOutlineColor.Size = new Size(47, 18);
             picTextOutlineColor.TabIndex = 53;
@@ -537,16 +587,17 @@ namespace eft_dma_radar
             // lblTextOutlineColor
             // 
             lblTextOutlineColor.AutoSize = true;
-            lblTextOutlineColor.Location = new Point(29, 466);
+            lblTextOutlineColor.Location = new Point(29, 514);
             lblTextOutlineColor.Name = "lblTextOutlineColor";
             lblTextOutlineColor.Size = new Size(73, 15);
             lblTextOutlineColor.TabIndex = 52;
             lblTextOutlineColor.Text = "Text Outline:";
+            toolTip.SetToolTip(lblTextOutlineColor, "Color of text outline");
             // 
             // picExfilClosedIconColor
             // 
             picExfilClosedIconColor.BackColor = Color.Transparent;
-            picExfilClosedIconColor.Location = new Point(109, 444);
+            picExfilClosedIconColor.Location = new Point(109, 492);
             picExfilClosedIconColor.Name = "picExfilClosedIconColor";
             picExfilClosedIconColor.Size = new Size(47, 18);
             picExfilClosedIconColor.TabIndex = 51;
@@ -556,16 +607,17 @@ namespace eft_dma_radar
             // lblExfilClosedIconColor
             // 
             lblExfilClosedIconColor.AutoSize = true;
-            lblExfilClosedIconColor.Location = new Point(8, 444);
+            lblExfilClosedIconColor.Location = new Point(8, 492);
             lblExfilClosedIconColor.Name = "lblExfilClosedIconColor";
             lblExfilClosedIconColor.Size = new Size(97, 15);
             lblExfilClosedIconColor.TabIndex = 50;
             lblExfilClosedIconColor.Text = "Exfil Closed Icon:";
+            toolTip.SetToolTip(lblExfilClosedIconColor, "Color of closed exfil icon");
             // 
             // picExfilPendingIconColor
             // 
             picExfilPendingIconColor.BackColor = Color.Transparent;
-            picExfilPendingIconColor.Location = new Point(108, 396);
+            picExfilPendingIconColor.Location = new Point(108, 444);
             picExfilPendingIconColor.Name = "picExfilPendingIconColor";
             picExfilPendingIconColor.Size = new Size(47, 18);
             picExfilPendingIconColor.TabIndex = 49;
@@ -575,16 +627,17 @@ namespace eft_dma_radar
             // lblExfilPendingIconColor
             // 
             lblExfilPendingIconColor.AutoSize = true;
-            lblExfilPendingIconColor.Location = new Point(-1, 396);
+            lblExfilPendingIconColor.Location = new Point(-1, 444);
             lblExfilPendingIconColor.Name = "lblExfilPendingIconColor";
             lblExfilPendingIconColor.Size = new Size(105, 15);
             lblExfilPendingIconColor.TabIndex = 48;
             lblExfilPendingIconColor.Text = "Exfil Pending Icon:";
+            toolTip.SetToolTip(lblExfilPendingIconColor, "Color of pending exfil icon");
             // 
             // picExfilActiveIconColor
             // 
             picExfilActiveIconColor.BackColor = Color.Transparent;
-            picExfilActiveIconColor.Location = new Point(108, 348);
+            picExfilActiveIconColor.Location = new Point(108, 396);
             picExfilActiveIconColor.Name = "picExfilActiveIconColor";
             picExfilActiveIconColor.Size = new Size(47, 18);
             picExfilActiveIconColor.TabIndex = 47;
@@ -594,16 +647,17 @@ namespace eft_dma_radar
             // lblExfilActiveIconColor
             // 
             lblExfilActiveIconColor.AutoSize = true;
-            lblExfilActiveIconColor.Location = new Point(10, 348);
+            lblExfilActiveIconColor.Location = new Point(10, 396);
             lblExfilActiveIconColor.Name = "lblExfilActiveIconColor";
             lblExfilActiveIconColor.Size = new Size(94, 15);
             lblExfilActiveIconColor.TabIndex = 46;
             lblExfilActiveIconColor.Text = "Exfil Active Icon:";
+            toolTip.SetToolTip(lblExfilActiveIconColor, "Color of active exfil icon");
             // 
             // picExfilClosedTextColor
             // 
             picExfilClosedTextColor.BackColor = Color.Transparent;
-            picExfilClosedTextColor.Location = new Point(108, 420);
+            picExfilClosedTextColor.Location = new Point(108, 468);
             picExfilClosedTextColor.Name = "picExfilClosedTextColor";
             picExfilClosedTextColor.Size = new Size(47, 18);
             picExfilClosedTextColor.TabIndex = 45;
@@ -613,16 +667,17 @@ namespace eft_dma_radar
             // lblExfilClosedTextColor
             // 
             lblExfilClosedTextColor.AutoSize = true;
-            lblExfilClosedTextColor.Location = new Point(7, 420);
+            lblExfilClosedTextColor.Location = new Point(7, 468);
             lblExfilClosedTextColor.Name = "lblExfilClosedTextColor";
             lblExfilClosedTextColor.Size = new Size(95, 15);
             lblExfilClosedTextColor.TabIndex = 44;
             lblExfilClosedTextColor.Text = "Exfil Closed Text:";
+            toolTip.SetToolTip(lblExfilClosedTextColor, "Color of closed exfil name text");
             // 
             // picExfilPendingTextColor
             // 
             picExfilPendingTextColor.BackColor = Color.Transparent;
-            picExfilPendingTextColor.Location = new Point(108, 372);
+            picExfilPendingTextColor.Location = new Point(108, 420);
             picExfilPendingTextColor.Name = "picExfilPendingTextColor";
             picExfilPendingTextColor.Size = new Size(47, 18);
             picExfilPendingTextColor.TabIndex = 43;
@@ -632,16 +687,17 @@ namespace eft_dma_radar
             // lblExfilPendingTextColor
             // 
             lblExfilPendingTextColor.AutoSize = true;
-            lblExfilPendingTextColor.Location = new Point(-1, 372);
+            lblExfilPendingTextColor.Location = new Point(-1, 420);
             lblExfilPendingTextColor.Name = "lblExfilPendingTextColor";
             lblExfilPendingTextColor.Size = new Size(103, 15);
             lblExfilPendingTextColor.TabIndex = 42;
             lblExfilPendingTextColor.Text = "Exfil Pending Text:";
+            toolTip.SetToolTip(lblExfilPendingTextColor, "Color of pending exfil name text");
             // 
             // picExfilActiveTextColor
             // 
             picExfilActiveTextColor.BackColor = Color.Transparent;
-            picExfilActiveTextColor.Location = new Point(108, 324);
+            picExfilActiveTextColor.Location = new Point(108, 372);
             picExfilActiveTextColor.Name = "picExfilActiveTextColor";
             picExfilActiveTextColor.Size = new Size(47, 18);
             picExfilActiveTextColor.TabIndex = 41;
@@ -651,16 +707,17 @@ namespace eft_dma_radar
             // lblExfilOpenTextColor
             // 
             lblExfilOpenTextColor.AutoSize = true;
-            lblExfilOpenTextColor.Location = new Point(10, 324);
+            lblExfilOpenTextColor.Location = new Point(10, 372);
             lblExfilOpenTextColor.Name = "lblExfilOpenTextColor";
             lblExfilOpenTextColor.Size = new Size(92, 15);
             lblExfilOpenTextColor.TabIndex = 40;
             lblExfilOpenTextColor.Text = "Exfil Active Text:";
+            toolTip.SetToolTip(lblExfilOpenTextColor, "Color of active exfil name text");
             // 
             // picQuestZonesColor
             // 
             picQuestZonesColor.BackColor = Color.Transparent;
-            picQuestZonesColor.Location = new Point(108, 300);
+            picQuestZonesColor.Location = new Point(108, 348);
             picQuestZonesColor.Name = "picQuestZonesColor";
             picQuestZonesColor.Size = new Size(47, 18);
             picQuestZonesColor.TabIndex = 39;
@@ -670,16 +727,17 @@ namespace eft_dma_radar
             // lblQuestZonesColor
             // 
             lblQuestZonesColor.AutoSize = true;
-            lblQuestZonesColor.Location = new Point(26, 300);
+            lblQuestZonesColor.Location = new Point(26, 348);
             lblQuestZonesColor.Name = "lblQuestZonesColor";
             lblQuestZonesColor.Size = new Size(76, 15);
             lblQuestZonesColor.TabIndex = 38;
             lblQuestZonesColor.Text = "Quest Zones:";
+            toolTip.SetToolTip(lblQuestZonesColor, "Color of quest helper zone");
             // 
             // picQuestItemsColor
             // 
             picQuestItemsColor.BackColor = Color.Transparent;
-            picQuestItemsColor.Location = new Point(108, 276);
+            picQuestItemsColor.Location = new Point(108, 324);
             picQuestItemsColor.Name = "picQuestItemsColor";
             picQuestItemsColor.Size = new Size(47, 18);
             picQuestItemsColor.TabIndex = 37;
@@ -689,16 +747,17 @@ namespace eft_dma_radar
             // lblQuestItemsColor
             // 
             lblQuestItemsColor.AutoSize = true;
-            lblQuestItemsColor.Location = new Point(29, 276);
+            lblQuestItemsColor.Location = new Point(29, 324);
             lblQuestItemsColor.Name = "lblQuestItemsColor";
             lblQuestItemsColor.Size = new Size(73, 15);
             lblQuestItemsColor.TabIndex = 36;
             lblQuestItemsColor.Text = "Quest Items:";
+            toolTip.SetToolTip(lblQuestItemsColor, "Color of quest helper items");
             // 
             // picImportantLootColor
             // 
             picImportantLootColor.BackColor = Color.Transparent;
-            picImportantLootColor.Location = new Point(108, 252);
+            picImportantLootColor.Location = new Point(108, 300);
             picImportantLootColor.Name = "picImportantLootColor";
             picImportantLootColor.Size = new Size(47, 18);
             picImportantLootColor.TabIndex = 35;
@@ -708,11 +767,12 @@ namespace eft_dma_radar
             // lblImportantLootColor
             // 
             lblImportantLootColor.AutoSize = true;
-            lblImportantLootColor.Location = new Point(12, 252);
+            lblImportantLootColor.Location = new Point(12, 300);
             lblImportantLootColor.Name = "lblImportantLootColor";
             lblImportantLootColor.Size = new Size(90, 15);
             lblImportantLootColor.TabIndex = 34;
             lblImportantLootColor.Text = "Important Loot:";
+            toolTip.SetToolTip(lblImportantLootColor, "Color of important loot");
             // 
             // picUSECColor
             // 
@@ -727,7 +787,7 @@ namespace eft_dma_radar
             // picRegularLootColor
             // 
             picRegularLootColor.BackColor = Color.Transparent;
-            picRegularLootColor.Location = new Point(108, 228);
+            picRegularLootColor.Location = new Point(108, 276);
             picRegularLootColor.Name = "picRegularLootColor";
             picRegularLootColor.Size = new Size(47, 18);
             picRegularLootColor.TabIndex = 33;
@@ -737,11 +797,12 @@ namespace eft_dma_radar
             // lblRegularLootColor
             // 
             lblRegularLootColor.AutoSize = true;
-            lblRegularLootColor.Location = new Point(25, 228);
+            lblRegularLootColor.Location = new Point(25, 276);
             lblRegularLootColor.Name = "lblRegularLootColor";
             lblRegularLootColor.Size = new Size(77, 15);
             lblRegularLootColor.TabIndex = 32;
             lblRegularLootColor.Text = "Regular Loot:";
+            toolTip.SetToolTip(lblRegularLootColor, "Color of loot");
             // 
             // picTeamHoverColor
             // 
@@ -761,6 +822,7 @@ namespace eft_dma_radar
             lblTeamHoverColor.Size = new Size(73, 15);
             lblTeamHoverColor.TabIndex = 30;
             lblTeamHoverColor.Text = "Team Hover:";
+            toolTip.SetToolTip(lblTeamHoverColor, "Color of other players if they're in the same group");
             // 
             // picTeammateColor
             // 
@@ -780,6 +842,7 @@ namespace eft_dma_radar
             lblTeammateColor.Size = new Size(65, 15);
             lblTeammateColor.TabIndex = 28;
             lblTeammateColor.Text = "Teammate:";
+            toolTip.SetToolTip(lblTeammateColor, "Color of teammates");
             // 
             // picLocalPlayerColor
             // 
@@ -799,6 +862,7 @@ namespace eft_dma_radar
             lblLocalPlayerColor.Size = new Size(70, 15);
             lblLocalPlayerColor.TabIndex = 26;
             lblLocalPlayerColor.Text = "LocalPlayer:";
+            toolTip.SetToolTip(lblLocalPlayerColor, "Color of client (you)");
             // 
             // picBEARColor
             // 
@@ -848,6 +912,7 @@ namespace eft_dma_radar
             lblBEARColor.Size = new Size(38, 15);
             lblBEARColor.TabIndex = 21;
             lblBEARColor.Text = "BEAR:";
+            toolTip.SetToolTip(lblBEARColor, "Color of BEAR PMC");
             // 
             // lblUSECColor
             // 
@@ -857,6 +922,7 @@ namespace eft_dma_radar
             lblUSECColor.Size = new Size(38, 15);
             lblUSECColor.TabIndex = 20;
             lblUSECColor.Text = "USEC:";
+            toolTip.SetToolTip(lblUSECColor, "Color of USEC PMC");
             // 
             // lblBossColor
             // 
@@ -866,6 +932,7 @@ namespace eft_dma_radar
             lblBossColor.Size = new Size(34, 15);
             lblBossColor.TabIndex = 19;
             lblBossColor.Text = "Boss:";
+            toolTip.SetToolTip(lblBossColor, "Color of AI boss");
             // 
             // lblAIRaiderColor
             // 
@@ -875,6 +942,7 @@ namespace eft_dma_radar
             lblAIRaiderColor.Size = new Size(82, 15);
             lblAIRaiderColor.TabIndex = 18;
             lblAIRaiderColor.Text = "Raider/Rogue:";
+            toolTip.SetToolTip(lblAIRaiderColor, "Color of raiders/rogues/boss followers/event AIs");
             // 
             // lblPScavColor
             // 
@@ -884,6 +952,7 @@ namespace eft_dma_radar
             lblPScavColor.Size = new Size(69, 15);
             lblPScavColor.TabIndex = 17;
             lblPScavColor.Text = "Player Scav:";
+            toolTip.SetToolTip(lblPScavColor, "Color of Player controlled scavs");
             // 
             // picAIScavColor
             // 
@@ -903,6 +972,7 @@ namespace eft_dma_radar
             lblAIScavColor.Size = new Size(48, 15);
             lblAIScavColor.TabIndex = 15;
             lblAIScavColor.Text = "AI Scav:";
+            toolTip.SetToolTip(lblAIScavColor, "Color of AI Scavs");
             // 
             // grpLootFilters
             // 
@@ -1404,17 +1474,17 @@ namespace eft_dma_radar
             // 
             // txtTeammateID
             // 
-            txtTeammateID.Location = new Point(261, 64);
+            txtTeammateID.Location = new Point(344, 45);
             txtTeammateID.MaxLength = 12;
             txtTeammateID.Name = "txtTeammateID";
-            txtTeammateID.Size = new Size(147, 23);
+            txtTeammateID.Size = new Size(81, 23);
             txtTeammateID.TabIndex = 25;
             toolTip.SetToolTip(txtTeammateID, "Primary teammate ID for friendly aimview");
             // 
             // lblPrimaryTeammate
             // 
             lblPrimaryTeammate.AutoSize = true;
-            lblPrimaryTeammate.Location = new Point(261, 42);
+            lblPrimaryTeammate.Location = new Point(262, 46);
             lblPrimaryTeammate.Name = "lblPrimaryTeammate";
             lblPrimaryTeammate.Size = new Size(76, 15);
             lblPrimaryTeammate.TabIndex = 22;
@@ -2006,6 +2076,8 @@ namespace eft_dma_radar
             grpConfig.ResumeLayout(false);
             grpColors.ResumeLayout(false);
             grpColors.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picStreamerColor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picSpecialColor).EndInit();
             ((System.ComponentModel.ISupportInitialize)picDeathMarkerColor).EndInit();
             ((System.ComponentModel.ISupportInitialize)picTextOutlineColor).EndInit();
             ((System.ComponentModel.ISupportInitialize)picExfilClosedIconColor).EndInit();
@@ -2225,6 +2297,10 @@ namespace eft_dma_radar
         private CheckBox chkAimBot;
         private GroupBox grpWeaponFeatures;
         private CheckBox chkNoRecoilLegacy;
+        private PictureBox picSpecialColor;
+        private Label lblSpecialColor;
+        private PictureBox picStreamerColor;
+        private Label lblStreamerColor;
     }
 }
 

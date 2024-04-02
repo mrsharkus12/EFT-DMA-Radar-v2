@@ -221,6 +221,12 @@ namespace eft_dma_radar
                 lstViewPMCHistory.Items.AddRange(Player.History); // Obtain new view
                 lstViewPMCHistory.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent); // resize Player History columns automatically
             }
+            // else if (tabControl.SelectedIndex == 4) // Player Watchlist Tab
+            // {
+            //     lstViewPMCHistory.Items.Clear(); // Clear old view
+            //     lstViewPMCHistory.Items.AddRange(Player.History); // Obtain new view
+            //     lstViewPMCHistory.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent); // resize Player History columns automatically
+            // }
         }
 
         /// <summary>
@@ -1354,6 +1360,14 @@ namespace eft_dma_radar
             UpdatePaintColorByName("TeamHover", picTeamHoverColor);
         }
 
+        private void picSpecialColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("Special", picSpecialColor);
+        }
+        private void picStreamerColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("Streamer", picStreamerColor);
+        }
         private void picRegularLootColor_Click(object sender, EventArgs e)
         {
             UpdatePaintColorByName("RegularLoot", picRegularLootColor);
@@ -1721,6 +1735,8 @@ namespace eft_dma_radar
             setColor(picLocalPlayerColor, "LocalPlayer");
             setColor(picTeammateColor, "Teammate");
             setColor(picTeamHoverColor, "TeamHover");
+            setColor(picSpecialColor, "Special");
+            setColor(picStreamerColor, "Streamer");
             setColor(picRegularLootColor, "RegularLoot");
             setColor(picImportantLootColor, "ImportantLoot");
             setColor(picQuestItemsColor, "QuestItem");
