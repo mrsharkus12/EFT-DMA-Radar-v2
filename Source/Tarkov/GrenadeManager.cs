@@ -39,7 +39,7 @@ namespace eft_dma_radar
         {
             try
             {
-                if (_sw.ElapsedMilliseconds < 150) return;
+                if (_sw.ElapsedMilliseconds < 50) return;
                 var count = this.GrenadeCount;
                 if (count > 0 && _listBase is null) // List addr becomes valid after first grenade(s) thrown
                 {
