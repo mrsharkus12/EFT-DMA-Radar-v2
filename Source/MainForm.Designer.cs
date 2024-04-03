@@ -1624,7 +1624,7 @@ namespace eft_dma_radar
             chkNoRecoilLegacy.Size = new Size(115, 19);
             chkNoRecoilLegacy.TabIndex = 36;
             chkNoRecoilLegacy.Text = "No Recoil / Sway";
-            toolTip.SetToolTip(chkNoRecoilLegacy, "Removes weapon recoil and sway. Deprecated way of removing it, but gets 2 birds with 1 stone.");
+            toolTip.SetToolTip(chkNoRecoilLegacy, "Removes weapon recoil and sway. Deprecated way of removing it, but gets 2 birds with 1 stone.\r\nWARNING: Cannot be turned off mid-raid!");
             chkNoRecoilLegacy.UseVisualStyleBackColor = true;
             chkNoRecoilLegacy.CheckedChanged += chkNoRecoilLegacy_CheckedChanged;
             // 
