@@ -49,6 +49,14 @@
         public const uint Settings = 0x58; // to ExitTriggerSettings
         public const uint Name = 0x10; // String
     }
+    public struct Weather // [Class] -.GClass1E1F : Object
+    {
+        public const uint Time = 0x10; // int64
+        public const uint Rain = 0x28; // Single
+        public const uint Temperature = 0x40; // Single
+        public const uint GlobalFogDensity = 0x38; // Single
+        public const uint GlobalFogHeight = 0x3C; // Single
+    }
 
     public struct UnityClass
     {

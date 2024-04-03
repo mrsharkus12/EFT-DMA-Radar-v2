@@ -12,7 +12,7 @@ namespace eft_dma_radar
 {
     public partial class frmMain : Form
     {
-        string Version = "0.2";
+        string Version = "0.2.2";
         string Revision = "r0";
 
         private readonly Config _config;
@@ -138,6 +138,7 @@ namespace eft_dma_radar
             chkMapFree.Parent = _mapCanvas; // change parent for checkBox_MapFree 'button'
             trkUIScale.ValueChanged += trkUIScale_ValueChanged; // Handle UI Adjustments
             trkAimviewSize.ValueChanged += trkAimviewSize_ValueChanged;
+            trkAimviewFOV.ValueChanged += trkAimviewFOV_ValueChanged;
 
             LoadConfig();
             LoadMaps();
@@ -658,6 +659,15 @@ namespace eft_dma_radar
             _aimviewWindowScale = (.01f * trkAimviewSize.Value);
             _aimviewWindowSize = 200 * _aimviewWindowScale;
         }
+
+        /// <summary>
+        /// Fired when Aimview FOV Trackbar is Adjusted
+        /// </summary>
+        private void trkAimviewFOV_ValueChanged(object sender, EventArgs e)
+        {
+            lblAimviewFOV.Text = $"Aimview FOV {trkAimviewFOV.Value}";
+        }
+
         /// <summary>
         /// Event fires when the "Map Free" or "Map Follow" checkbox (button) is clicked on the Main Window.
         /// </summary>
@@ -1381,6 +1391,10 @@ namespace eft_dma_radar
         {
             UpdatePaintColorByName("Streamer", picStreamerColor);
         }
+        private void picVehicleColor_Click(object sender, EventArgs e)
+        {
+            UpdatePaintColorByName("Vehicle", picVehicleColor);
+        }
         private void picRegularLootColor_Click(object sender, EventArgs e)
         {
             UpdatePaintColorByName("RegularLoot", picRegularLootColor);
@@ -1434,6 +1448,7 @@ namespace eft_dma_radar
             trkZoom.Value = _config.DefaultZoom;
             trkUIScale.Value = _config.UIScale;
             trkAimviewSize.Value = _config.AimviewWindowScale;
+            trkAimviewFOV.Value = (int)_config.AimViewFOV;
             txtTeammateID.Text = _config.PrimaryTeammateId;
             trkRegularLootValue.Value = _config.MinLootValue / 1000;
             trkImportantLootValue.Value = _config.MinImportantLootValue / 1000;
@@ -1463,6 +1478,8 @@ namespace eft_dma_radar
             chkShowCorpses.Checked = _config.ShowCorpsesEnabled;
             chkShowSubItems.Checked = _config.ShowSubItemsEnabled;
             chkAutoLootRefresh.Checked = _config.AutoLootRefreshEnabled;
+            chkVSync.Checked = _config.Vsync;
+            chkEnableLogging.Checked = _config.LoggingEnabled;
 
             if (_config.Filters.Count == 0)
             { // add a default, blank config
@@ -1751,6 +1768,7 @@ namespace eft_dma_radar
             setColor(picTeamHoverColor, "TeamHover");
             setColor(picSpecialColor, "Special");
             setColor(picStreamerColor, "Streamer");
+            setColor(picVehicleColor, "Vehicle");
             setColor(picRegularLootColor, "RegularLoot");
             setColor(picImportantLootColor, "ImportantLoot");
             setColor(picQuestItemsColor, "QuestItem");
@@ -2469,6 +2487,7 @@ namespace eft_dma_radar
             _config.DefaultZoom = trkZoom.Value;
             _config.UIScale = trkUIScale.Value;
             _config.AimviewWindowScale = trkAimviewSize.Value;
+            _config.AimViewFOV = trkAimviewFOV.Value;
             _config.PrimaryTeammateId = txtTeammateID.Text;
             _config.NoRecoilEnabled = chkNoRecoil.Checked;
             _config.NoSwayEnabled = chkNoSway.Checked;
@@ -2487,6 +2506,8 @@ namespace eft_dma_radar
             _config.ThrowPowerEnabled = chkThrowPower.Checked;
             _config.ThrowPowerStrength = trkThrowPower.Value;
             _config.HideExfilNames = chkHideExfilNames.Checked;
+            _config.Vsync = chkVSync.Checked;
+            _config.LoggingEnabled = chkEnableLogging.Checked;
 
             Config.SaveConfig(_config); // Save Config to Config.json
             Memory.Shutdown(); // Wait for Memory Thread to gracefully exit
