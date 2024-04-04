@@ -713,21 +713,24 @@ namespace eft_dma_radar
                 _history.Push(new PlayerHistoryEntry(null, "---NEW GAME---")); // Insert separator in PMC History Log
         }
         /// <summary>
-        /// Reloads playerWatchlist.txt into Memory.
+        /// Reloads Watchlist.txt into Memory.
         /// </summary>
         public static void LoadWatchlist()
         {
             lock (_watchlistLock) // Sync access to File IO, Resources
             {
                 var watchlist = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase); // Allocate new Dictionary (case insensitive keys)
-                if (!File.Exists("playerWatchlist.txt"))
+                // if (!File.Exists("playerWatchlist.txt"))
+                if (!File.Exists("UserFiles\\Watchlist.txt"))
                 {
-                    File.WriteAllText("playerWatchlist.txt",
+                    // File.WriteAllText("playerWatchlist.txt",
+                    File.WriteAllText("UserFiles\\Watchlist.txt",
                         "PlayerAcctID : Watchlist reason/comment here (one entry per line)");
                 }
                 else
                 {
-                    var lines = File.ReadAllLines("playerWatchlist.txt");
+                    // var lines = File.ReadAllLines("playerWatchlist.txt");
+                    var lines = File.ReadAllLines("UserFiles\\Watchlist.txt");
                     foreach (var line in lines)
                     {
                         var split = line.Split(':'); // remove single delimiting ':' character

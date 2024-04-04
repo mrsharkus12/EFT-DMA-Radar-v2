@@ -1521,7 +1521,8 @@ namespace eft_dma_radar
         /// </summary>
         private void LoadMaps()
         {
-            var dir = new DirectoryInfo($"{Environment.CurrentDirectory}\\Maps");
+            // var dir = new DirectoryInfo($"{Environment.CurrentDirectory}\\Maps");
+            var dir = new DirectoryInfo($"{Environment.CurrentDirectory}\\UserFiles\\Maps");
             if (!dir.Exists)
                 dir.Create();
 

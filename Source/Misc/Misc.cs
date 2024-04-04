@@ -412,8 +412,11 @@ namespace eft_dma_radar
             {
                 try
                 {
-                    if (!File.Exists("Config.json")) throw new FileNotFoundException("Config.json does not exist!");
-                    var json = File.ReadAllText("Config.json");
+                    // if (!File.Exists("UserFilesConfig.json")) throw new FileNotFoundException("Config.json does not exist!");
+                    // var json = File.ReadAllText("Config.json");
+
+                    if (!File.Exists("UserFiles\\Config.json")) throw new FileNotFoundException("Config.json does not exist!");
+                    var json = File.ReadAllText("UserFiles\\Config.json");
                     config = JsonSerializer.Deserialize<Config>(json);
                     return true;
                 }
@@ -433,7 +436,8 @@ namespace eft_dma_radar
             lock (_lock)
             {
                 var json = JsonSerializer.Serialize<Config>(config, _jsonOptions);
-                File.WriteAllText("Config.json", json);
+                // File.WriteAllText("Config.json", json);
+                File.WriteAllText("UserFiles\\Config.json", json);
             }
         }
     }
