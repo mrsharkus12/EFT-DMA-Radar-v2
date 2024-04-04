@@ -6,15 +6,15 @@
   "mapLayers": [
     {
       "minHeight": -100,
-      "filename": "Maps\\Interchange_0f.png"
+      "filename": "UserFiles\\Maps\\Interchange1f.png"
     },
     {
       "minHeight": 26,
-      "filename": "Maps\\Interchange_1f.png"
+      "filename": "UserFiles\\Maps\\Interchange2f.png"
     },
     {
       "minHeight": 31,
-      "filename": "Maps\\Interchange_2f.png"
+      "filename": "UserFiles\\Maps\\Interchange3f.png"
     }
   ]
 }

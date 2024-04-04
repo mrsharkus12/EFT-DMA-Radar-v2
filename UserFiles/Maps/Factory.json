@@ -1,19 +1,27 @@
 {
   "mapID": [
-  "factory4_day",
-  "factory4_night"
+    "factory4_day",
+    "factory4_night"
   ],
-  "x": 1160,
-  "y": 1211,
-  "scale": 17.8,
+  "x": 2235,
+  "y": 2320,
+  "scale": 33.6,
   "mapLayers": [
     {
-      "minHeight": -100,
-      "filename": "Maps\\Factory_0f.png"
+      "minHeight": -2,
+      "filename": "UserFiles\\Maps\\Factory-1f.jpg"
     },
     {
       "minHeight": -0.8,
-      "filename": "Maps\\Factory_base.png"
+      "filename": "UserFiles\\Maps\\Factory1f.jpg"
+    },
+    {
+      "minHeight": 2.8,
+      "filename": "UserFiles\\Maps\\Factory2f.jpg"
+    },
+    {
+      "minHeight": 6.5,
+      "filename": "UserFiles\\Maps\\Factory3f.jpg"
     }
   ]
 }

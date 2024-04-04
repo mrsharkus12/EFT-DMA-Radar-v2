@@ -1,12 +1,14 @@
 {
-  "mapID": ["woods"],
-  "x": 1255,
-  "y": 801,
-  "scale": 1.776,
+  "mapID": [
+    "woods"
+  ],
+  "x": 2590,
+  "y": 1650,
+  "scale": 3.755,
   "mapLayers": [
     {
       "minHeight": -100,
-      "filename": "Maps\\Woods.png"
+      "filename": "UserFiles\\Maps\\Woods1f.jpg"
     }
   ]
 }

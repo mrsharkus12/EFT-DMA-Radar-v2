@@ -1,21 +1,22 @@
 {
-	"mapID": ["laboratory"],
-	"x": 3107,
-	"y": -1062,
-	"scale": 8.22,
-	"mapLayers": [
-		{
-			"minHeight": -100,
-			"filename": "Maps\\Labs_0f.png"
-		},
-				{
-			"minHeight": -1,
-			"filename": "Maps\\Labs_1f.png"
-		}
-		,
-				{
-			"minHeight": 3,
-			"filename": "Maps\\Labs_2f.png"
-		}
-	]
+  "mapID": [
+    "laboratory"
+  ],
+  "x": 7435,
+  "y": -5095,
+  "scale": 26.05,
+  "mapLayers": [
+    {
+      "minHeight": -100,
+      "filename": "UserFiles\\Maps\\Labs-1f.png"
+    },
+    {
+      "minHeight": -1,
+      "filename": "UserFiles\\Maps\\Labs1f.png"
+    },
+    {
+      "minHeight": 3,
+      "filename": "UserFiles\\Maps\\Labs2f.png"
+    }
+  ]
 }
