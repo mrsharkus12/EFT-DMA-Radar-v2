@@ -299,8 +299,9 @@
     public struct FirearmController
     {
         public const uint WeaponLn = 0x174; //[174] WeaponLn : Single
+        public const uint Fireport = 0xD0; //[D0] Fireport : EFT.BifacialTransform //paskakoodi
     }
-
+    
     public struct HandsController
     {
         public const uint Item = 0x60; // [60] item_0x60 : EFT.InventoryLogic.Item
@@ -603,5 +604,14 @@
     public struct TOD_Time
     {
         public const uint GameDateTime = 0x18; // [18] GameDateTime : EFT.GameDateTime
+    }
+    public struct FPPCamera
+    {
+        public static uint[] ViewMatrix = new uint[] { 0x30, 0x18 }; //paskakoodi
+    }
+
+    public struct Fireport
+    {
+        public static readonly uint[] To_TransfromInternal = new uint[] { 0x10, 0x10 };
     }
 }

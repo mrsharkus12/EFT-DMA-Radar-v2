@@ -22,6 +22,7 @@ namespace eft_dma_radar
         private ulong _opticCamera;
         private ulong _fpsCamera;
         private ulong _fovPtr;
+        private Matrix _viewMatrix;
 
         public bool IsReady
         {
@@ -52,6 +53,31 @@ namespace eft_dma_radar
         {
             this._unityBase = unityBase;
             this.GetCamera();
+        }
+
+        //paskakoodi
+        public Matrix ViewMatrix
+        {
+            get => this._viewMatrix;
+        }
+
+        public async void GetViewMatrixAsync()
+        {
+            await Task.Run(() =>
+            {
+                this.GetViewMatrix();
+                Thread.Sleep(1); //Sleep for 1 ms to prevent CPU rape
+            });
+        }
+
+        public void GetViewMatrix()
+        {
+            if (!IsReady)
+                return;
+
+            ulong tempMatrixPtr = Memory.ReadPtrChain(_fpsCamera, Offsets.FPPCamera.ViewMatrix);
+            ulong viewMatrixAddr = tempMatrixPtr + 0xDC;
+            this._viewMatrix = Memory.ReadValue<Matrix>(viewMatrixAddr);
         }
 
         private bool GetCamera()

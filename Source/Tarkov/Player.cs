@@ -383,6 +383,24 @@ namespace eft_dma_radar
             }
         }
 
+        public void SetAimLockRotation(Vector2 rot)
+        {
+            if (!this.IsLocalPlayer || !this.IsAlive || this.MovementContext == 0)
+            {
+                return;
+            }
+            Memory.WriteValue(this.isOfflinePlayer ? this.MovementContext + Offsets.MovementContext.Rotation : this.MovementContext + Offsets.ObservedPlayerMovementContext.Rotation, rot);
+        }
+        public Vector2 GetAimLockRotation()
+        {
+            if (!this.IsLocalPlayer || !this.IsAlive || this.MovementContext == 0)
+            {
+                return new Vector2();
+            }
+            return Memory.ReadValue<Vector2>(this.isOfflinePlayer ? this.MovementContext + Offsets.MovementContext.Rotation : this.MovementContext + Offsets.ObservedPlayerMovementContext.Rotation);
+        }
+
+
         /// <summary>
         /// Set player rotation (Direction/Pitch)
         /// </summary>

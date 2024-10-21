@@ -627,7 +627,8 @@ namespace eft_dma_radar
                 { HotkeyAction.ShowLoot, this.SetShowLoot },
                 { HotkeyAction.Thirdperson, this.SetThirdperson },
                 { HotkeyAction.ThermalVision, this.SetThermalVision },
-                { HotkeyAction.TimeScale, this.SetTimescale }
+                { HotkeyAction.TimeScale, this.SetTimescale },
+                { HotkeyAction.Aimlock, this.LockAimLock }
             };
         }
 
@@ -3190,6 +3191,11 @@ namespace eft_dma_radar
         {
             this.config.Thirdperson = enabled;
             swThirdperson.Checked = enabled;
+        }
+
+        private void LockAimLock(bool enabled)
+        {
+            this.config.AimBotLockOn = enabled;
         }
 
         private void UpdateHotkeyEntryData()

@@ -252,7 +252,8 @@ namespace eft_dma_radar
         ThermalVision,
         TimeScale,
         ZoomIn,
-        ZoomOut
+        ZoomOut,
+        Aimlock
     }
     #endregion
 

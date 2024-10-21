@@ -17,7 +17,7 @@ namespace eft_dma_radar
         private ulong _physical;
         private ulong _playerBase;
         private ulong _playerProfile;
-        private ulong _proceduralWeaponAnimation;
+        public ulong _proceduralWeaponAnimation;
         private ulong _breathEffector;
         private ulong _firmarmController;
         private ulong _skillsManager;

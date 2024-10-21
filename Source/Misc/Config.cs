@@ -6,6 +6,48 @@ namespace eft_dma_radar
     public class Config
     {
         #region Json Properties
+        [JsonPropertyName("aimbotFOV")]
+        public int AimbotFOV { get; set; }
+
+        [JsonPropertyName("aimbotMaxDistance")]
+        public int AimbotMaxDistance { get; set; }
+
+        [JsonPropertyName("aimbotSmoothness")]
+        public int AimbotSmoothness { get; set; }
+
+        [JsonPropertyName("aimbotHead")]
+        public bool AimbotHead { get; set; }
+
+        [JsonPropertyName("aimbotNeck")]
+        public bool AimbotNeck { get; set; }
+
+        [JsonPropertyName("aimbotChest")]
+        public bool AimbotChest { get; set; }
+
+        [JsonPropertyName("aimbotPelvis")]
+        public bool AimbotPelvis { get; set; }
+
+        [JsonPropertyName("aimbotRightLeg")]
+        public bool AimbotRightLeg { get; set; }
+
+        [JsonPropertyName("aimbotLeftLeg")]
+        public bool AimbotLeftLeg { get; set; }
+
+        [JsonPropertyName("enableAimbot")]
+        public bool EnableAimbot { get; set; }
+
+        [JsonPropertyName("aimbotClosest")]
+        public bool AimbotClosest { get; set; }
+
+        [JsonPropertyName("aimbotLocksOnPMCs")]
+        public bool AimbotLocksOnPMCs { get; set; }
+
+        [JsonPropertyName("aimbotLocksOnScavs")]
+        public bool AimbotLocksOnScavs { get; set; } 
+
+        [JsonPropertyName("aimBotLockOn")]
+        public bool AimBotLockOn { get; set; }
+
         [JsonPropertyName("aimview")]
         public bool Aimview { get; set; }
 
@@ -439,6 +481,21 @@ namespace eft_dma_radar
 
         public Config()
         {
+            AimbotFOV = 30;
+            AimbotMaxDistance = 200;
+            AimbotSmoothness = 100;
+            AimBotLockOn = false;
+            AimbotHead = false;  // Enable aiming at the head
+            AimbotNeck = false; // Disable aiming at the neck
+            AimbotChest = false; // Enable aiming at the chest
+            AimbotPelvis = false; // Disable aiming at the pelvis
+            AimbotRightLeg = false; // Disable aiming at the right leg
+            AimbotLeftLeg = false; // Disable aiming at the left leg
+            EnableAimbot = false; // Enable the aimbot feature
+            AimbotClosest = false;
+            AimbotLocksOnPMCs = false; // Enable aiming at PMC targets
+            AimbotLocksOnScavs = false; // Enable aiming at SCAV targets
+
             AimViewFOV = 30;
             Aimview = false;
             Chams = DefaultChamsSettings;
