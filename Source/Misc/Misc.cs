@@ -251,9 +251,9 @@ namespace eft_dma_radar
         Thirdperson,
         ThermalVision,
         TimeScale,
+        Aimlock,
         ZoomIn,
         ZoomOut,
-        Aimlock
     }
     #endregion
 

@@ -122,6 +122,7 @@ namespace eft_dma_radar
             "Thirdperson",
             "Thermal Vision",
             "Time Scale",
+            "Aimlock",
             "Zoom In",
             "Zoom Out"
         };
